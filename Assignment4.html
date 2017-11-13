@@ -1,0 +1,220 @@
+<!--
+Name: Lovina Delph, lovina_delph@student.uml.edu
+Affiliation: Computer Science - Undergraduate, UMass Lowell 
+Subject: Comp.4610, GUI Programming I 
+File: /usr/cs/2017/ldelph/public_html/assn3.html
+Created: 8/Nov/2017
+Last updated by LD: - 12/Nov/2017
+ -->
+
+<html>
+    <head>
+        <title>Assignment 4</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="stylesheet" href="newcss.css">  
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     
+    </head>
+   <body>
+       
+       <div class="container-fluid text-center">
+           <div class="row content">
+              
+               
+       <div class="col-sm-8 text-left">
+           <h1> Compare Car Costs! </h1>
+           <h6> Make the best choice when buying your car. </h6>
+           <hr>
+       <input id="btnAdd" type="button" value="Click to add MSRP Values" />
+          <br>
+          <br />
+       <div id="TextBoxContainer">
+      </div>
+         <br>
+         <input id="btnAdd1" type="button" value="Click to add MPG Values" />
+         <br>
+          <br />
+       <div id="TextBoxContainer1">
+
+        </div>
+       </div>
+      <br>
+       
+      <div class="col-sm-8 text-left">
+          <div class =" well">
+          Gas Value <input type ="number" id="gasvalue" > <br>
+          Months <input type ="number" id="month_value" > <br>
+          Down Payment <input type ="number" id="down_payment" > <br>
+          Interest <input type ="number" id="interest_value" > <br>
+          Miles per year <input type ="number" id="mp_year" > <br>
+          Rebate <input type ="number" id="add_discounts" > <br> <br>
+         Click me first ! 
+           <input id="btnGet" type="button" value="Submit" /> 
+         <br>
+         <br>
+        Then me! <input type="button" id = "btnGenerate" value="Generate Table" />
+     <hr />
+          </div>
+      </div>    
+           </div>
+      </div>
+        
+ <script> 
+    
+ $(function () {
+     
+     
+     var arr = [];
+     var arr2 = []; 
+     var cpm =[];
+     var cpmonth = [];
+     var i = 0;
+     
+     
+    $("#btnAdd").bind("click", function () {
+        var div = $("<div />");
+        div.html(GetDynamicTextBox1(""));
+        $("#TextBoxContainer").append(div);
+    });
+    
+     $("#btnAdd1").bind("click", function () {
+        var div = $("<div />");
+        div.html(GetDynamicTextBox2(""));
+        $("#TextBoxContainer1").append(div);
+    });
+    $("#btnGet").bind("click", function () {
+        var values = "";
+        var values2 = "";
+        
+        $("input[name=DynamicTextBox1]").each(function () {
+            values += $(this).val() + "\n";
+            arr.push($(this).val());
+        });
+        
+        $("input[name=DynamicTextBox2]").each(function () {
+            values2 += $(this).val() + "\n";
+            arr2.push($(this).val());
+        });
+       
+       var x, text;
+      
+        var a = document.getElementById("gasvalue").value;
+        if (isNaN(a) || a === "") {
+        text = "Input not valid";
+        }alert(text);
+        
+        var b = document.getElementById("month_value").value;
+        if (isNaN(b) || b === "") {
+        text = "Input not valid";
+        }alert(text);
+        
+        var c = document.getElementById("down_payment").value;
+        if (isNaN(c) || c === "") {
+        text = "Input not valid";
+        }alert(text);
+        
+        var d = document.getElementById("interest_value").value;
+        if (isNaN(d) || d === "") {
+        text = "Input not valid";
+        }alert(text);
+        
+        var e = document.getElementById("mp_year").value;
+        if (isNaN(e) || e === "") {
+        text = "Input not valid";
+        }alert(text);
+        
+        var f = document.getElementById("add_discounts").value;
+        if (isNaN(f) || f === "") {
+        text = "Input not valid";
+        }alert(text);
+        
+        var x = new Array(arr.length);
+        for (var i =0; i < arr.length;i++ ){
+            x[i] = new Array(arr2.length);
+        }
+        
+     
+        function someFunction(arr, arr2) {
+     
+        
+        for(var i = 0; i < arr.length; i++){
+            for(var j = 0; j < arr2.length; j++){
+                
+                var msrp = arr[i];
+                var mpg = arr2[j];
+                
+               var msrp = (msrp - f);
+               var down_payment = msrp *( c * 0.01);
+               var af_dp = msrp - down_payment;
+               
+               var cost_per_month = ((d*0.01/12) *af_dp)/(1-Math.pow(1 + d*0.01/12), -(b));
+               var cpmonth = cost_per_month + e/12/mpg * a;
+               var total_cost = cost_per_month * b;
+               var cpm = total_cost/e + a/mpg;
+               
+               cpm = cpm.toFixed(2);
+               cpmonth = cpmonth.toFixed(2); 
+               x[i][j] = "Cost per mile = " + cpm + ", " + "Cost per month = " + cpmonth;
+
+            }
+            
+             
+        }
+    
+         return x; 
+           
+    }
+        
+        $("#btnGenerate").click(function () {
+            
+          
+      
+         var color_td;
+         document.write("<table border='1px'>");
+       
+            
+            var temp_x = someFunction(arr,arr2);
+            
+            for(var i = 0; i < arr.length; i++){
+                document.write("<tr style='height:100px;'>");
+               document.write();
+               for(var j = 0; j < arr2.length; j++) {
+                    
+                  
+                
+                    document.write("<td style='width:100px;background-color:" + color_td + "'>" + temp_x[i][j] +
+                    "</td>");
+                           
+               }
+               document.write("</tr>");
+            }
+           document.write("</table>");
+        });
+    });
+    $("body").on("click", ".remove", function () {
+        $(this).closest("div").remove();
+    });
+   
+});
+function GetDynamicTextBox1(value) {
+    return '<input name = "DynamicTextBox1" type="number" value = "' + value + '" />&nbsp;' + 
+            '<input type="button" value="Remove" class="remove" />';
+    
+    
+}
+function GetDynamicTextBox2(value) {
+    return '<input name = "DynamicTextBox2" type="number" value = "' + value + '" />&nbsp;' + 
+            '<input type="button" value="Remove" class="remove" />';
+    
+      
+};
+
+  </script>
+  
+  
+  
+    </body>
+</html>
